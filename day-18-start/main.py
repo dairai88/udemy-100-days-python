@@ -1,21 +1,29 @@
-from turtle import Turtle, Screen
+"""Turtle Demo"""
+import turtle
 import random
 
-tim = Turtle()
+tim = turtle.Turtle()
+turtle.colormode(255)
 
-colors = ["CornflowerBlue", "DarkOrchid", "IndianRed", "DeepSkyBlue", "LightSeaGreen", "wheat", "SlateGray", "SeaGreen"]
-
-
-def draw_shape(num_slides):
-    angle = 360 / num_slides
-    for _ in range(num_slides):
-        tim.forward(100)
-        tim.right(angle)
+directions = [0, 90, 180, 270]
 
 
-for shape_side_n in range(3, 11):
-    tim.color(random.choice(colors))
-    draw_shape(shape_side_n)
+def random_color():
+    return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
 
-screen = Screen()
-screen.exitonclick()
+
+def random_walk():
+    """turtle random walk"""
+    tim.width(10)
+    tim.speed("fastest")
+    for _ in range(200):
+        tim.color(random_color())
+        tim.forward(30)
+        tim.setheading(random.choice(directions))
+        tim.heading()
+
+
+random_walk()
+
+SCREEN = turtle.Screen()
+SCREEN.exitonclick()
