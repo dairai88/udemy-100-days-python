@@ -1,6 +1,35 @@
 """password manager"""
 import tkinter
+import tkinter.messagebox
+import random
+import pyperclip
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def generate_password():
+    """generate password"""
+
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', \
+               'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', \
+               'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', \
+               'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    nr_letters = random.randint(8, 10)
+    nr_symbols = random.randint(2, 4)
+    nr_numbers = random.randint(2, 4)
+
+    password_letters = [random.choice(letters) for _ in range(nr_letters)]
+    password_symbols = [random.choice(symbols) for _ in range(nr_symbols)]
+    password_numbers = [random.choice(numbers) for _ in range(nr_numbers)]
+
+    password_list = password_letters + password_symbols + password_numbers
+
+    random.shuffle(password_list)
+    generated_password = "".join(password_list)
+
+    password_entry.delete(0, tkinter.END)
+    password_entry.insert(0, generated_password)
+    pyperclip.copy(generated_password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
@@ -10,10 +39,18 @@ def save():
     email = email_entry.get()
     password = password_entry.get()
 
-    with open("data.txt", "a", encoding="utf-8") as data_file:
-        data_file.write(f"{website} | {email} | {password}\n")
-        website_entry.delete(0, tkinter.END)
-        password_entry.delete(0, tkinter.END)
+    if len(website) == 0 or len(password) == 0:
+        tkinter.messagebox.showinfo(title="Oops", message="Please make sure you haven't \
+                                    left any fields empty.")
+    else:
+        is_ok = tkinter.messagebox.askokcancel(title=website, 
+                                            message=f"These are the details entered: \n \
+                                    Email: {email} \nPassword: {password} \nIs it ok to save?")
+        if is_ok:
+            with open("data.txt", "a", encoding="utf-8") as data_file:
+                data_file.write(f"{website} | {email} | {password}\n")
+                website_entry.delete(0, tkinter.END)
+                password_entry.delete(0, tkinter.END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = tkinter.Tk()
@@ -44,7 +81,7 @@ password_entry = tkinter.Entry(width=20)
 password_entry.grid(row=3, column=1)
 
 # Buttons
-generate_password_button = tkinter.Button(text="Generate Password")
+generate_password_button = tkinter.Button(text="Generate Password", command=generate_password)
 generate_password_button.grid(row=3, column=2)
 add_button = tkinter.Button(text="Add", width=35, command=save)
 add_button.grid(row=4, column=1, columnspan=2)
