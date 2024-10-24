@@ -9,7 +9,7 @@ birthday_data = df.to_dict(orient='records')
 now = dt.datetime.now()
 
 MY_EMAIL = "sundalei2011@163.com"
-APP_PASSWORD = "TJyWaHHSdws95bjq"
+APP_PASSWORD = "QDiGtwHSabLfLaTV"
 
 birthday_templates = []
 PLACEHOLDER = "[NAME]"
@@ -21,8 +21,7 @@ for index in range(1, 4):
 
 def send_email(email, content):
     """send email"""
-    with smtplib.SMTP(host="smtp.163.com") as connection:
-        connection.starttls()
+    with smtplib.SMTP_SSL(host="smtp.163.com", port=465) as connection:
         connection.login(user=MY_EMAIL, password=APP_PASSWORD)
         connection.sendmail(
             from_addr=MY_EMAIL,
