@@ -1,14 +1,29 @@
 """day 33"""
+from datetime import datetime
 import requests
 
-response = requests.get(url="http://api.open-notify.org/iss-now.json", timeout=5)
+MY_LAT = 31.230391
+MY_LONG = 121.473701
+
+parameter = {
+    "lat": MY_LAT,
+    "lng": MY_LONG,
+    "formatted": 0,
+    "tzid": "Asia/Shanghai"
+}
+
+response = requests.get(url="https://api.sunrise-sunset.org/json", timeout=5, params=parameter)
 response.raise_for_status()
-
 data = response.json()
+sunrise = data["results"]["sunrise"]
+sunset = data["results"]["sunset"]
 
-longitude = data["iss_position"]["longitude"]
-latitude = data["iss_position"]["latitude"]
+sunrise_dt = datetime.fromisoformat(sunrise)
+sunset_dt = datetime.fromisoformat(sunset)
 
-iss_position = (longitude, latitude)
+print(sunrise_dt.hour)
+print(sunset_dt.hour)
 
-print(iss_position)
+time_now = datetime.now()
+
+print(time_now)
