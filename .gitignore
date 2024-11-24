@@ -7,3 +7,7 @@ a_file.txt
 password-manager/data.json
 flash-card-project/data/words_to_learn.csv
 day-38-workout-tracker/config.json
+flight-deals/.env
+flight-deals/sample_response.json
+flight-deals/sample_response2.json
+flight-deals/note.log
