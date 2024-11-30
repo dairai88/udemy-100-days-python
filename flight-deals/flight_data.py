@@ -13,7 +13,7 @@ class FlightData:
 
 
 def find_cheapest_flight(flight_data):
-    """find cheapest flight"""
+    """find the cheapest flight"""
     if flight_data is None or not flight_data['data']:
         print("No flight data")
         return FlightData("N/A", "N/A", "N/A", "N/A", "N/A", "N/A")
